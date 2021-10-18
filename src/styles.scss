@@ -1,0 +1,46 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: "Arial", "Verdana", "Helvetica", sans-serif;
+  font-size: 12px;
+}
+
+.react-datepicker__input-container {
+  height: 100%;
+}
+
+.react-datepicker-wrapper {
+  height: 100%;
+
+  input {
+    display: block;
+    width: 100%;
+    padding: 6px 6px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-top-color: rgb(204, 204, 204);
+    border-right-color: rgb(204, 204, 204);
+    border-bottom-color: rgb(204, 204, 204);
+    border-left-color: rgb(204, 204, 204);
+    border-radius: 6px;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+
+    &.invalid {
+      background: #fff2f1;
+      outline: transparent;
+      border-color: #e21a1a;
+    }
+  }
+}
