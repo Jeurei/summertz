@@ -1,15 +1,35 @@
+import { Breakpoints } from "./types/styled.d";
 import { DefaultTheme } from "styled-components";
 
 const customMediaQuery = (maxWidth: number) => `${maxWidth}px`;
 
 const breakPointsMap = {
-  xl: customMediaQuery(922),
+  xl: customMediaQuery(1980),
+  lg: customMediaQuery(988),
   md: customMediaQuery(768),
-  sm: customMediaQuery(576),
+  sm: customMediaQuery(320),
+};
+
+let breakpoints: Breakpoints = [
+  breakPointsMap.sm,
+  breakPointsMap.md,
+  breakPointsMap.lg,
+  breakPointsMap.xl,
+];
+
+breakpoints = {
+  ...breakpoints,
+  ...{
+    sm: breakpoints[0],
+    md: breakpoints[1],
+    lg: breakpoints[2],
+    xl: breakpoints[3],
+  },
 };
 
 export const theme: DefaultTheme = {
   breakPoints: breakPointsMap,
+  breakpoints,
   fontSizes: {
     sm: "14px",
     md: "16px",

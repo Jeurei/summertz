@@ -18,6 +18,7 @@ const MaskedInput: React.FC<Props> = ({
   className,
 }) => {
   const { errors, touched } = useFormikContext();
+
   return (
     <Div position="relative" width={1}>
       <MaskedInputComponent
@@ -29,7 +30,7 @@ const MaskedInput: React.FC<Props> = ({
         onChange={onChange}
         onBlur={onBlur}
         className={
-          getIn(touched, "snils") && getIn(errors, "snils") ? "invalid" : ""
+          getIn(touched, name!) && getIn(errors, name!) ? "invalid" : ""
         }
       />
       {getIn(touched, name!) && getIn(errors, name!) && (

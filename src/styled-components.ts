@@ -53,8 +53,8 @@ export const Wrapper = styled.div<IProps>`
       width: ${breakPoints.md}
     }
 
-    ${up(breakPoints.xl)}{
-      width: ${breakPoints.xl}
+    ${up(breakPoints.lg)}{
+      width: ${breakPoints.lg}
     }
   `}
 `;
@@ -107,6 +107,16 @@ interface ICheckboxProps {
   disabled?: boolean;
 }
 
+const hiidenStyles = `border: 0;
+clip: rect(0 0 0 0);
+height: 1px;
+margin: -1px;
+overflow: hidden;
+padding: 0;
+position: absolute;
+white-space: nowrap;
+width: 1px;`;
+
 export const HiddenCheckbox = styled(Field).attrs<ICheckboxProps>(
   ({ name, disabled = false }) => ({
     type: "checkbox",
@@ -115,15 +125,7 @@ export const HiddenCheckbox = styled(Field).attrs<ICheckboxProps>(
     disabled,
   })
 )<ICheckboxProps>`
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
+  ${hiidenStyles}
 `;
 
 export const Icon = styled.svg`
@@ -161,24 +163,6 @@ export const StyledCheckbox = styled.div<IStyledCeckboxProps>`
   ${Icon} {
     visibility: ${({ checked }) => (checked ? "visible" : "hidden")};
   }
-`;
-
-interface IInputProps {
-  type: string;
-  placeholder: string;
-  name: string;
-  className: string;
-  component?: string;
-  render?: (props: FieldProps) => React.ReactNode;
-}
-
-export const InputError = styled.span`
-  color: #e21a1a;
-  height: auto;
-  min-height: 1em;
-  position: absolute;
-  bottom: -15px;
-  left: 0;
 `;
 
 export const Hint = styled.span`
@@ -253,6 +237,25 @@ transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   border-color: #e21a1a;
 }`;
 
+interface IInputProps {
+  type: string;
+  placeholder: string;
+  name: string;
+  className: string;
+  component?: string;
+  render?: (props: FieldProps) => React.ReactNode;
+  disabled?: boolean;
+}
+
+export const InputError = styled.span`
+  color: #e21a1a;
+  height: auto;
+  min-height: 1em;
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+`;
+
 export const Input = styled(Field).attrs<IInputProps>(
   ({
     type = "text",
@@ -261,6 +264,7 @@ export const Input = styled(Field).attrs<IInputProps>(
     className,
     component = "input",
     render,
+    disabled = false,
   }) => ({
     type,
     placeholder,
@@ -268,9 +272,19 @@ export const Input = styled(Field).attrs<IInputProps>(
     className,
     component,
     render,
+    disabled,
   })
 )<ICheckboxProps>`
   ${inputStyles}
+
+  &:disabled {
+    background-color: ${({
+      theme: {
+        colors: { inactive },
+      },
+    }) => inactive};
+    opacity: 0.4;
+  }
 `;
 
 export const MaskedInput = styled(MaskedInputComponent).attrs<MaskInputProps>(
@@ -308,6 +322,8 @@ export const Button = styled.button.attrs<IProps>(({ type, onClick }) => ({
   font-weight: bold;
   line-height: 1.42857143;
   border-radius: 4px;
+  appearance: none;
+  border: none;
   ${compose(typography, color, space, layout, position, flexbox, grid)}
 
   &:disabled {
@@ -317,14 +333,52 @@ export const Button = styled.button.attrs<IProps>(({ type, onClick }) => ({
       },
     }) => inactive};
   }
+
+  ${({ theme: { down, breakPoints, colors } }) => `
+    ${down(breakPoints.md)}{
+      background-color: ${colors.secondary};
+      margin-bottom: 15px;
+      color: ${colors.white};
+
+      svg {
+        display:none;
+      }
+
+      &:disabled{
+        background-color: ${colors.inactive};
+        color: ${colors.black};
+      }
+    }
+  `}
+
+  &.close-button {
+    svg {
+      display: block;
+    }
+
+    background-color: ${({ theme: { colors } }) => colors.inactive};
+    color: ${({ theme: { colors } }) => colors.black};
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: ${({ theme: { colors } }) => colors.secondary};
+      color: ${({ theme: { colors } }) => colors.white};
+    }
+  }
 `;
 
-export const PrimaryButton = styled.button.attrs<IProps>(
+export const PrimaryButton = styled(Button).attrs<IProps>(
   ({ type, onClick }) => ({
     type,
     onClick,
   })
 )<IProps>`
+  color: ${({
+    theme: {
+      colors: { black },
+    },
+  }) => black} !important;
+
   &:not(:disabled) {
     background-color: ${({
       theme: {
@@ -335,7 +389,7 @@ export const PrimaryButton = styled.button.attrs<IProps>(
       theme: {
         colors: { white },
       },
-    }) => white};
+    }) => white} !important;
   }
 
   ${compose(typography, color, space, layout, position, flexbox, grid)}
@@ -368,4 +422,23 @@ export const Diadlog = styled(Div)<IProps>`
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.5);
+`;
+
+export const InfoPopup = styled(Div)<IProps>`
+  top: 20%;
+  left: 50%;
+  background-color: ${({
+    theme: {
+      colors: { white },
+    },
+  }) => white};
+  width: 60%;
+  height: 300px;
+  position: absolute;
+  transform: translate(-50%);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+
+  ${compose(typography, color, space, layout, position, flexbox, grid)}
 `;
