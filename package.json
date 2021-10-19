@@ -2,6 +2,7 @@
   "name": "summertz",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://jeurei.github.io",
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.2",
     "@testing-library/jest-dom": "^4.2.4",
@@ -16,6 +17,7 @@
     "axios": "^0.23.0",
     "date-fns": "^2.25.0",
     "formik": "^2.2.9",
+    "gh-pages": "^3.2.3",
     "node-sass": "^6.0.1",
     "react": "^17.0.2",
     "react-datepicker": "^4.2.1",
@@ -31,6 +33,8 @@
     "yup": "^0.32.11"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -b gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
